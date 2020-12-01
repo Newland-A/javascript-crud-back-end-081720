@@ -18,9 +18,9 @@ class PostsController < ApplicationController
     @post = Post.new(post_params)
 
     if @post.save
-      render json: @post, status: :created, location: @post
+      render json: @post
     else
-      render json: @post.errors, status: :unprocessable_entity
+      render json: {errors: @post.errors.full_messages.to_sentence}
     end
   end
 
@@ -29,13 +29,14 @@ class PostsController < ApplicationController
     if @post.update(post_params)
       render json: @post
     else
-      render json: @post.errors, status: :unprocessable_entity
+      render json: {errors: @post.errors.full_messages.to_sentence}
     end
   end
 
   # DELETE /posts/1
   def destroy
     @post.destroy
+    render json: @post
   end
 
   private
